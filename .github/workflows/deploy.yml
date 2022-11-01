@@ -76,7 +76,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ env.SERVER_PUBLIC_IP }}
-          username: ubuntu
+          username: regee
           key: ${{ env.PRIVATE_SSH_KEY }}
           port: 22
           command_timeout: 2000m
@@ -86,7 +86,6 @@ jobs:
             sudo apt install docker.io -y
             sudo apt install awscli -y
             sudo $(aws ecr get-login --no-include-email --region us-east-1);
-            sudo docker system prune -a -f
             sudo docker stop myappcontainer || true
             sudo docker rm myappcontainer || true
             sudo docker pull $REGISTRY/$REPOSITORY:$IMAGE_TAG
