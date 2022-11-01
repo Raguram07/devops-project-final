@@ -73,15 +73,10 @@ jobs:
           REPOSITORY: devops-test
           IMAGE_TAG: ${{ github.sha }}
           AWS_DEFAULT_REGION: us-east-1
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ env.SERVER_PUBLIC_IP }}
-          username: ubuntu
-          key: ${{ env.PRIVATE_SSH_KEY }}
-          port: 22
-          command_timeout: 2000m
           envs: PRIVATE_SSH_KEY,REGISTRY,REPOSITORY,IMAGE_TAG,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_DEFAULT_REGION,AWS_REGION
-          script: |-
+        run: |
+          echo "$PRIVATE_SSH_KEY" > PRIVATE_SSH_KEY && chmod 600 PRIVATE_SSH_KEY
+          ssh -o StrictHostKeyChecking=no -i PRIVATE_SSH_KEY ${ubuntu}@${SERVER_PUBLIC_IP} '
             sudo apt update
             sudo apt install docker.io -y
             sudo apt install awscli -y
