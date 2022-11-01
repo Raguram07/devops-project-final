@@ -25,10 +25,10 @@ resource "aws_instance" "servernode" {
     host        = self.public_ip
     user        = "ubuntu"
     private_key = var.private_key
-    timeout     = "4m"
+    timeout     = "10m"
   }
   tags = {
-    "name" = "DeployVM"
+    name = "DeployVM"
   }
 }
 
