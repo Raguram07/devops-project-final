@@ -1,3 +1,5 @@
+
+
 terraform {
   required_providers {
     aws = {
@@ -14,7 +16,7 @@ provider "aws" {
   region = var.region
 }
 resource "aws_instance" "servernode" {
-  ami                    = "ami-08c40ec9ead489470"
+  ami                    = "ami-052efd3df9dad4825"
   instance_type          = "t2.micro"
   key_name               = aws_key_pair.deployer.key_name
   vpc_security_group_ids = [aws_security_group.maingroup.id]
@@ -30,22 +32,10 @@ resource "aws_instance" "servernode" {
     "name" = "DeployVM"
   }
 }
-
-
 resource "aws_iam_instance_profile" "ec2-profile" {
   name = "ec2-profile"
-  role = "EC2-ECR-AUTH"
+  role = "ECR-LOGIN-AUTO"
 }
-
-resource "aws_default_subnet" "default_az1" {
-  availability_zone = "us-east-1a"
-
-  tags = {
-    Name = "Default subnet for us-east-1a"
-  }
-}
-
-
 resource "aws_security_group" "maingroup" {
   egress = [
     {
@@ -84,14 +74,14 @@ resource "aws_security_group" "maingroup" {
       to_port          = 80
     }
   ]
+
+
 }
 
 resource "aws_key_pair" "deployer" {
   key_name   = var.key_name
   public_key = var.public_key
 }
-
-#Obtiain public IP of the EC2 instance
 
 output "instance_public_ip" {
   value     = aws_instance.servernode.public_ip
