@@ -21,13 +21,14 @@ resource "aws_instance" "servernode" {
   key_name               = aws_key_pair.deployer.key_name
   vpc_security_group_ids = [aws_security_group.maingroup.id]
   iam_instance_profile   = aws_iam_instance_profile.ec2-profile.name
+  associate_public_ip_address = true
   tags = {
     "name" = "DeployVM"
   }
 }
 resource "aws_iam_instance_profile" "ec2-profile" {
   name = "ec2-profile"
-  role = "ECR-LOGIN-AUTO"
+  role = "EC2-ECR-AUTH"
 }
 resource "aws_security_group" "maingroup" {
   egress = [
