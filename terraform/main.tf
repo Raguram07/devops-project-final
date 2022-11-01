@@ -31,14 +31,14 @@ resource "aws_instance" "servernode" {
   }
 }
 
-#IAM profile
+
 
 resource "aws_iam_instance_profile" "ec2-profile" {
   name = "ec2-profile"
   role = "EC2-ECR-AUTH"
 }
 
-#Security Group
+
 
 resource "aws_security_group" "maingroup" {
   egress = [
