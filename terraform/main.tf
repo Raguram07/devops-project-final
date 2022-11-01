@@ -13,9 +13,8 @@ terraform {
 provider "aws" {
   region = var.region
 }
-#EC2 config
 resource "aws_instance" "servernode" {
-  ami                    = "ami-08c40ec9ead489470"
+  ami                    = "ami-052efd3df9dad4825"
   instance_type          = "t2.micro"
   key_name               = aws_key_pair.deployer.key_name
   vpc_security_group_ids = [aws_security_group.maingroup.id]
@@ -25,10 +24,10 @@ resource "aws_instance" "servernode" {
     host        = self.public_ip
     user        = "ubuntu"
     private_key = var.private_key
-    timeout     = "10m"
+    timeout     = "4m"
   }
   tags = {
-    name = "DeployVM"
+    "name" = "DeployVM"
   }
 }
 
